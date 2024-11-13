@@ -1,0 +1,12 @@
+//
+//  Release.xcconfig
+//  Movies
+//
+//  Created by Ramina Tastanova on 13.11.2024.
+//
+
+// BASE URL
+BASE_URL = https:/$()/movies-tv-shows-database.p.rapidapi.com
+
+// API KEYS
+API_KEY = ENTER_YOUR_KEY
