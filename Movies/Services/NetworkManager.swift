@@ -30,13 +30,6 @@ class NetworkManager {
                 completion(nil)
                 return
             }
-            
-            if let string = String(data: data, encoding: .utf8) {
-                print(string)
-            } else {
-                print("Failed to convert Data to String.")
-            }
-            
             do {
                 let response = try JSONDecoder().decode(MovieResponse.self, from: data)
                 completion(response.movieResults)
