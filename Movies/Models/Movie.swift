@@ -6,21 +6,19 @@
 //
 
 import Foundation
-
 // Movie model for trending movies
 struct MovieResponse: Codable {
     let movieResults: [Movie]
-    let results: Int
-    let totalResults: String
-    let status: String
-    let statusMessage: String
+    let results: Int?
+    let totalResults: String?
+    let status: String?
+    let statusMessage: String?
     
     private enum CodingKeys: String, CodingKey {
         case movieResults = "movie_results"
         case results, totalResults = "Total_results", status, statusMessage = "status_message"
     }
 }
-
 struct Movie: Codable {
     let title: String
     let year: String
@@ -30,8 +28,23 @@ struct Movie: Codable {
         case title, year
         case imdbId = "imdb_id"
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.title = try container.decode(String.self, forKey: .title)
+        
+        if let yearString = try? container.decode(String.self, forKey: .year) {
+            self.year = yearString
+        } else if let yearNumber = try? container.decode(Int.self, forKey: .year) {
+            self.year = String(yearNumber)
+        } else {
+            self.year = "Unknown"
+        }
+        
+        self.imdbId = try container.decode(String.self, forKey: .imdbId)
+    }
 }
-
 struct MovieDetails: Codable {
     let title: String
     let description: String?

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 class MovieListViewModel {
     private let apiClient = NetworkManager()
     var movies: [Movie] = []
@@ -29,6 +28,14 @@ class MovieListViewModel {
             guard let self = self else { return }
             self.movieDetails = details
             self.onMovieDetailsFetched?()
+        }
+    }
+    
+    func searchMovies(query: String) {
+        apiClient.searchMovies(query: query) { [weak self] movies in
+            guard let self = self else { return }
+            self.movies = movies ?? []
+            self.onMoviesFetched?()
         }
     }
 }
